@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import BtnFunctions from '../../Components/btnFunctions/btnFunctions'
-
+import Background from '../../Background/Background'
 import '../Game/Game.css'
 
 //1) play->generate random number from 1-6(# of times change color)
@@ -10,20 +10,17 @@ import '../Game/Game.css'
 
 class Game extends Component {
     state = {
-        colorArr: ['', 'est', '', '', ''],
-        randNum: 0,
+        colorArr: [],
+        colorCounter: ['smallCircle', 'triangleUp', 'triangleDown', 'triangleRight', 'triangleLeft'],
         lengthArr: 0,
         position: 0,
         currentColor: "",
+        glowColor: "",
+        isStarted: false
     }
 
     generateRandomNum = () => {
-        return Math.floor((Math.random() * 4) + 0);
-
-        // this.setState({
-        //     randNum: rand
-        // })
-        // console.log(rand);
+        return Math.floor((Math.random() * 5) + 0);
     }
 
     runGame = () => {
@@ -35,100 +32,125 @@ class Game extends Component {
         // let arr = this.state.colorArr.splice;
 
         let arr = [...this.state.colorArr];
-
+        let length = 0;
         console.log("tursn:" + turn);
 
         //fil in color randomly using loop
         for (let i = 0; i < turn; i++) {
             //randomly choose a color and set it
             let randColor = this.generateRandomNum();
-
+            length++;
             arr[i] = colors[randColor];
             // console.log("color changed: " + arr[i]);
         }
 
-        // const updatedPosts = posts.map(post => {
-        //     return {
-        //         ...post,
-        //         author: 'Max'
-        //     }
-        // });
-
         this.setState({
             colorArr: arr,
-            // colorArr: 
-            lengthArr: this.state.colorArr.length,
-            randNum: turn
-        }, () => console.log(this.state.colorArr))
+            randNum: turn,
+            lengthArr: length
+        }, () => console.log("color: " + this.state.colorArr + "lenght: " + this.state.lengthArr))
 
-        // for (let i = 0; i < 5; i++)
-        //     console.log("color " + arr[i]);
-
-        // for (let i = 0; i < this.state.colorArr.length; i++)
-        // console.log("arrColor:" + this.state.colorArr)
-
-        // this.setState({
-        //     colorArr: [...this.state.colorArr, ...arr]
-        // })
-
-        // for (let i = 0; i < this.state.colorArr.length; i++) {
-        //     console.log("colors: " + this.state.colorArr[i]);
-        // }
+        // this.changeColorName();
     }
 
     changeColorName = () => {
-        // console.log(this.state.colorArr[0])
-        this.change(this.state.lengthArr - 1);
 
+        // console.log(this.state.colorArr[0])
+        if (!this.state.isStarted) {
+            this.change(this.state.lengthArr - 1);
+
+            this.setState({ isStarted: true })
+        }
     }
 
     change = (i) => {
 
-        if (i < 0)
-            return;
-        setTimeout(function() {
+        setTimeout(function () {
+
+            if (i < 0) {
+                console.log("done");
+                this.setState({ currentColor: "" })
+                return;
+            }
+
+            let tempArr = this.state.colorCounter;
+
             console.log(i + " : " + this.state.colorArr[i])
-            if (this.state.colorArr[i] === 'green')
-                this.setState({ currentColor: "green" });
-            else if (this.state.colorArr[i] === 'yellow')
+            if (this.state.colorArr[i] === 'green') {
+
+                tempArr[1] = 'greenGlow';
+                this.setState({
+                    colorCounter: tempArr,
+                    currentColor: "green"
+                })
+            }
+            else if (this.state.colorArr[i] === 'yellow') {
                 this.setState({ currentColor: "yellow" });
-            else if (this.state.colorArr[i] === 'red')
-                this.setState({ currentColor: "red" });
-            else if (this.state.colorArr[i] === 'blue')
+                tempArr[0] = 'yellowGlow';
+                this.setState({ colorCounter: tempArr })
+            }
+            else if (this.state.colorArr[i] === 'red') {
+                this.setState({
+                    currentColor: "red",
+
+                });
+            }
+            else if (this.state.colorArr[i] === 'blue') {
                 this.setState({ currentColor: "blue" });
-            else if (this.state.colorArr[i] === 'orange')
+            }
+            else if (this.state.colorArr[i] === 'orange') {
                 this.setState({ currentColor: "orange" });
+            }
 
-            // if (this.state.position < 5) {
-            //     let updatePosition = this.state.position;
-            //     updatePosition = updatePosition + 1;
-            //     this.setState({ position: updatePosition });
-            // }
+            if (tempArr[0] === 'yellowGlow') {
+                tempArr[0] = 'smallCircle';
+            }
+            if (tempArr[1] === 'greenGlow') {
+                tempArr[1] = 'triangleUp';
+            }
 
-            this.setState({
-                cssSwitch: "." + this.state.currentColor
-            })
-
-            console.log("color:" + this.state.cssSwitch);
+            // this.setState({ colorCounter: tempArr })
 
             this.change(--i);
-        }.bind(this), 1500);
+
+        }.bind(this), 2000);
+
+
     }
 
-    makeColorGlow() {
+    makeColorGlow = (props) => {
 
     }
 
     render() {
+        const assigned = "";
 
+        this.makeColorGlow(assigned);
 
         return (
             <div>
-
                 <h2 onClick={this.runGame}> Simon Says: <span className={this.state.currentColor}>{this.state.currentColor}</span></h2>
                 {/* <BtnFunctions name='Play' onClick={this.displayColorSequence} /> */}
+
+                {/* make another components for play/rules */}
                 <button>Rules</button>
                 <button onClick={this.changeColorName}>Game</button>
+
+                <Background />
+                <div>
+                    <div className={this.state.colorCounter[0]}></div>
+                    <div className={this.state.colorCounter[1]}></div>
+                    <div className={this.state.colorCounter[2]}></div>
+                    <div className={this.state.colorCounter[3]}></div>
+                    <div className={this.state.colorCounter[4]}></div>
+
+                    {/* <div className={assigned.concat("smallCircle")}></div>
+                    <div className={assigned.concat("triangleDown")}></div>
+                    <div className={assigned.concat("triangleUp")}></div>
+                    <div className={assigned.concat("triangleRight")}></div>
+                    <div className={assigned.concat("triangleLeft")}></div> */}
+                </div>
+
 
             </div >
         )

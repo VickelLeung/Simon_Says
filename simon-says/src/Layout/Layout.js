@@ -10,13 +10,8 @@ const layout = () => {
 
     return (
         <div>
-
-
-            {/* <h2>Simon Says: color...</h2>
-            <BtnFUnctions /> */}
-            {/* <p>The rules are simple, you just have to remember the sequence of the shapes being lit up</p> */}
             <Game />
-            <Background />
+
 
             <p>Once you are ready to start, press 'play'</p>
         </div>

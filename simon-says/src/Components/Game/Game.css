@@ -17,3 +17,218 @@
 .orange{
     color:rgb(226, 135, 60);
 }
+
+.red, .blue, .orange, .yellow, .green, .yellowGlow, .greenGlow{
+
+    -webkit-animation: flickerAnimation 4s infinite;
+    -moz-animation: flickerAnimation 4s infinite;
+    -o-animation: flickerAnimation 4s infinite;
+     animation: flickerAnimation 4s infinite; 
+
+}
+
+@keyframes flickerAnimation {
+    0%   { opacity:1; }
+    50%  { opacity:0; }
+    100% { opacity:1; }
+    
+  }
+  @-o-keyframes flickerAnimation{
+    0%   { opacity:1; }
+    50%  { opacity:0; }
+    100% { opacity:1; }
+  }
+  @-moz-keyframes flickerAnimation{
+    0%   { opacity:1; }
+    50%  { opacity:0; }
+    100% { opacity:1; }
+  }
+  @-webkit-keyframes flickerAnimation{
+    0%   { opacity:1; }
+    50%  { opacity:0; }
+    100% { opacity:1; }
+  }
+
+  /* @keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+} */
+
+
+
+
+.smallCircle{
+    margin:auto;
+    /* position: relative; */
+    position: absolute;
+    height: 120px;
+    width: 120px;
+    top:44%;
+    right:45%;
+    background-color: rgb(183, 196, 69);
+    border-radius: 50%; 
+  }
+
+  .yellowGlow{
+    margin:auto;
+    position: absolute;
+    height: 120px;
+    width: 120px;
+    top:44%;
+    right:45%;
+    border-radius: 50%; 
+    background-color: rgb(229, 255, 112);
+    cursor:pointer;
+  }
+
+  .greenGlow{
+    width: 0;
+    height: 0;
+    top:65%;
+    right:43%;
+    position: absolute;
+	border-left: 80px solid transparent;
+	border-right: 80px solid transparent;
+	border-bottom: 125px solid rgb(89, 192, 20);
+  }
+
+.triangleDown{
+    width: 0;
+    height: 0;
+    position:absolute;
+    top:23%;
+    right:43%;
+	border-left: 80px solid transparent;
+	border-right: 80px solid transparent;
+	border-top: 125px solid rgb(236, 36, 36);
+}
+
+
+.triangleRight{
+    width: 0;
+    height: 0;
+    top:40%;
+    right:56%;
+    position: absolute;
+	border-top: 80px solid transparent;
+	border-left: 125px solid rgb(82, 96, 223);
+    border-bottom: 80px solid transparent;
+    cursor:pointer;
+   
+    animation: change 2s step-end both;
+}
+
+@keyframes change {
+    from { color:  rgb(82, 96, 223) }
+    to   { color: rgb(115, 140, 255) }
+}
+
+/* .triangleRight{ 
+    border-left:  solid rgb(115, 140, 255);
+    cursor: pointer;
+} */
+
+.redGlow{
+    background-color: rgb(236, 69, 69);
+}
+
+.triangleLeft{
+    width: 0;
+    height: 0;
+    top:40%;
+    right:34%;
+    position: absolute;
+	border-top: 80px solid transparent;
+	border-right: 125px solid rgb(250, 92, 30);
+	border-bottom: 80px solid transparent;
+}
+
+.triangleUp{
+    width: 0;
+    height: 0;
+    top:65%;
+    right:43%;
+    position: absolute;
+	border-left: 80px solid transparent;
+	border-right: 80px solid transparent;
+	border-bottom: 125px solid rgb(51, 124, 3);
+}
+
+  
+  @media screen and (max-width: 600px){
+    .circle {
+
+        margin:auto;
+        position: relative;
+        /* top:30%; */
+        height: 250px;
+        width: 250px;
+        background-color: #555;
+        border-radius: 50%;
+      }
+    
+      .smallCircle{
+        margin:auto;
+        /* position: relative; */
+        position: absolute;
+        height: 50px;
+        width: 50px;
+        top:48%;
+        right:45%;
+        background-color: rgb(183, 196, 69);
+        border-radius: 50%; 
+      }
+
+      .triangleDown{
+        width: 0;
+        height: 0;
+        position:absolute;
+        top:36%;
+        right:43%;
+        border-left: 30px solid transparent;
+        border-right: 30px solid transparent;
+        border-top: 65px solid rgb(236, 36, 36);
+
+      }
+
+      .triangleUp{
+        width: 0;
+        height: 0;
+        top:60%;
+        right:43%;
+        position: absolute;
+        border-left: 30px solid transparent;
+        border-right: 30px solid transparent;
+        border-bottom: 65px solid rgb(87, 199, 13);
+    }
+    
+    .triangleRight{
+        width: 0;
+        height: 0;
+        top:48%;
+        right:60%;
+        position: absolute;
+        border-top: 30px solid transparent;
+        border-left: 65px solid rgb(82, 96, 223);
+        border-bottom: 30px solid transparent;
+        cursor:pointer;
+       
+        animation: change 2s step-end both;
+    }
+
+    .triangleLeft{
+        width: 0;
+        height: 0;
+        top:48%;
+        right:25%;
+        position: absolute;
+        border-top: 30px solid transparent;
+        border-right: 65px solid rgb(250, 92, 30);
+        border-bottom: 30px solid transparent;
+    }
+
+  }
