@@ -5,6 +5,7 @@ import Background from '../../Background/Background'
 import '../Game/Game.css'
 
 import Points from '../Points/Points'
+import Modals from '../Modal/Modal'
 
 //1) play->generate random number from 1-6(# of times change color)
 //2) array to keep track of colors each iteration(display name)
@@ -37,8 +38,7 @@ class Game extends Component {
         let turn = this.generateRandomNum() + 1;
         //array of colors
         let colors = ['green', 'blue', 'red', 'orange', 'yellow'];
-        //clone arrasd
-        // let arr = this.state.colorArr.splice;
+        //clone arr
 
         let arr = [...this.state.colorArr];
         let length = 0;
@@ -62,14 +62,14 @@ class Game extends Component {
     }
 
     changeColorName = () => {
-
+        this.runGame();
         if (!this.state.isStarted) {
+
             this.change(this.state.lengthArr - 1);
 
             this.setState({ isStarted: true })
 
         }
-
     }
 
     change = (i) => {
@@ -148,29 +148,20 @@ class Game extends Component {
     }
 
     compareAnswers = (input) => {
+        let tries = this.state.userTries;
+        let userInput = [...this.state.userAnswers];
+
         if (this.state.isPlayable) {
-            let tries = this.state.userTries;
-            let userInput = [...this.state.userAnswers];
+
             console.log("clicked tries:" + tries);
             //compare answer if numbers of tries equals the length of colorArr - loser
             if (tries === this.state.colorArr.length) {
 
-                //compare answers
-                if (this.equalArr(userInput)) {
-                    //set states to won
-                    this.setState({
-                        isWon: true,
-                        points: this.state.points + 1,
-                        isPlayable: true
-                    }, () => console.log("isWon:" + this.state.isWon))
-                    console.log("you won")
-                }
-                else {
-                    this.setState({
-                        isWon: false
-                    }, () => console.log("isWon:" + this.state.isWon))
-                    console.log("You lost")
-                }
+                this.setState({
+                    isWon: false
+                }, () => console.log("isWon:" + this.state.isWon))
+                console.log("You lost")
+
             }
             else {
 
@@ -188,6 +179,17 @@ class Game extends Component {
                 // userInput.concat(input);
                 console.log("inpu :" + input);
             }
+        }
+
+        //compare answers
+        if (this.equalArr(userInput)) {
+            //set states to won
+            this.setState({
+                isWon: true,
+                points: this.state.points + 1,
+                isPlayable: true
+            }, () => console.log("isWon:" + this.state.isWon))
+            console.log("you won")
         }
     }
 
@@ -233,7 +235,29 @@ class Game extends Component {
         // console.log("clicked time" + "time:" + this.state.time + " timer:" + this.state.timer)
     }
 
+    toggleModal = () => {
+
+        if (this.state.isWon)
+            return true;
+
+
+        return false;
+    }
+
     render() {
+
+        let modalText = ""
+        if (this.state.isWon)
+            modalText = "Congratulations! You won"
+        else
+            modalText = "You lost sorry"
+
+        let startModal =
+
+            <Modals show={true}>
+                Game start in :{this.state.time}
+            </Modals>
+
 
         return (
             <div>
@@ -253,7 +277,17 @@ class Game extends Component {
                     <div onClick={() => this.compareAnswers('orange')} className={this.state.colorCounter[4]}></div>
 
                     <Points pointers={this.state.points} />
+                    {/* <p>Color Sequence: {this.state.colorArr}</p> */}
                     <h3>Timer: {this.state.time}</h3>
+
+                    {/* {startModal} */}
+                    <Modals show={this.toggleModal()} >
+                        {modalText}
+                        <div>
+                            <button>Play again</button>
+                            <button>Close</button>
+                        </div>
+                    </Modals>
                 </div>
             </div >
         )
