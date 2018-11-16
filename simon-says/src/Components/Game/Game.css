@@ -49,18 +49,6 @@
     100% { opacity:1; }
   }
 
-  /* @keyframes fadeInOpacity {
-	0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
-} */
-
-
-
-
 .smallCircle{
     margin:auto;
     /* position: relative; */
@@ -94,7 +82,7 @@
     position: absolute;
 	border-left: 80px solid transparent;
 	border-right: 80px solid transparent;
-	border-bottom: 125px solid rgb(59, 129, 12);
+	border-bottom: 125px solid rgb(110, 182, 62);
   }
 
   .blueGlow{
@@ -116,7 +104,7 @@
     right:34%;
     position: absolute;
 	border-top: 80px solid transparent;
-    border-right: 125px solid rgb(247, 105, 50);
+    border-right: 125px solid rgb(247, 134, 89);
 	border-bottom: 80px solid transparent;
   }
 
@@ -128,7 +116,7 @@
     right:43%;
 	border-left: 80px solid transparent;
 	border-right: 80px solid transparent;
-	border-top: 125px solid rgb(236, 60, 60);
+	border-top: 125px solid rgb(70, 45, 45);
 }
 
 .triangleDown{
@@ -139,7 +127,7 @@
     right:43%;
 	border-left: 80px solid transparent;
 	border-right: 80px solid transparent;
-    border-top: 125px solid rgb(236, 36, 36);
+    border-top: 125px solid rgb(243, 31, 31);
     cursor: pointer;
 }
 
@@ -151,7 +139,7 @@
     right:56%;
     position: absolute;
 	border-top: 80px solid transparent;
-	border-left: 125px solid rgb(82, 96, 223);
+	border-left: 125px solid rgb(49, 68, 243);
     border-bottom: 80px solid transparent;
     cursor:pointer;
 }
@@ -180,6 +168,29 @@
     cursor: pointer;
 }
 
+.smallCircle:hover{
+    background-color: rgb(229, 255, 112);
+}
+
+.triangleDown:hover{
+    border-top: 125px solid rgb(236, 102, 102);
+}
+
+.triangleUp:hover{
+	border-bottom: 125px solid rgb(110, 182, 62);
+}
+
+.triangleLeft:hover{
+    border-right: 125px solid rgb(247, 134, 89);
+}
+
+.triangleRight:hover{
+    border-left: 125px solid rgb(89, 106, 255);
+}
+
+.smallCircle:active, .triangleDown:active, .triangleLeft:active, .triangleRight:active, .triangleUp:active{
+    transform: translateY(4px);
+}
   
   @media screen and (max-width: 600px){
     .circle {

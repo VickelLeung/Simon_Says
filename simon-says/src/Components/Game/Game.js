@@ -21,12 +21,13 @@ class Game extends Component {
         currentColor: "",
         isStarted: false,
         isPlayable: false,
-        time: 10,
+        time: 0,
         isCountdown: false,
         isWon: null,
         userAnswers: [],
         userTries: 0,
-        points: 0
+        points: 0,
+        isShowModal: false
     }
 
     generateRandomNum = () => {
@@ -34,43 +35,55 @@ class Game extends Component {
     }
 
     runGame = () => {
-        //get rand # for turns
-        let turn = this.generateRandomNum() + 1;
-        //array of colors
-        let colors = ['green', 'blue', 'red', 'orange', 'yellow'];
-        //clone arr
 
-        let arr = [...this.state.colorArr];
-        let length = 0;
-        console.log("tursn:" + turn);
+        this.openTimer();
 
-        //fil in color randomly using loop
-        for (let i = 0; i < turn; i++) {
-            //randomly choose a color and set it
-            let randColor = this.generateRandomNum();
-            length++;
-            arr[i] = colors[randColor];
-            // console.log("color changed: " + arr[i]);
-        }
-
-        this.setState({
-            colorArr: arr,
-            randNum: turn,
-            lengthArr: length
-        }, () => console.log("color: " + this.state.colorArr + "lenght: " + this.state.lengthArr))
-
-    }
-
-    changeColorName = () => {
-        this.runGame();
+        console.log("state:" + !this.state.isStarted);
         if (!this.state.isStarted) {
+            console.log("entered game..");
+            //get rand # for turns
+            let turn = this.generateRandomNum() + 1;
+            //array of colors
+            let colors = ['green', 'blue', 'red', 'orange', 'yellow'];
+            //clone arr
 
-            this.change(this.state.lengthArr - 1);
+            let arr = [...this.state.colorArr];
+            let length = 0;
+            console.log("tursn:" + turn);
+
+            //fil in color randomly using loop
+            for (let i = 0; i < turn; i++) {
+                //randomly choose a color and set it
+                let randColor = this.generateRandomNum();
+                length++;
+                arr[i] = colors[randColor];
+                // console.log("color changed: " + arr[i]);
+            }
+
+            this.setState({
+                colorArr: arr,
+                randNum: turn,
+                lengthArr: length
+            }, () => console.log("color: " + this.state.colorArr + "lenght: " + this.state.lengthArr))
+
+
+            this.change(turn - 1);
 
             this.setState({ isStarted: true })
 
         }
     }
+
+    // changeColorName = () => {
+
+    //     if (!this.state.isStarted) {
+
+    //         this.change(this.state.lengthArr - 1);
+
+    //         this.setState({ isStarted: true })
+
+    //     }
+    // }
 
     change = (i) => {
 
@@ -158,7 +171,8 @@ class Game extends Component {
             if (tries === this.state.colorArr.length) {
 
                 this.setState({
-                    isWon: false
+                    isWon: false,
+                    isShowModal: true
                 }, () => console.log("isWon:" + this.state.isWon))
                 console.log("You lost")
 
@@ -187,7 +201,8 @@ class Game extends Component {
             this.setState({
                 isWon: true,
                 points: this.state.points + 1,
-                isPlayable: true
+                isPlayable: true,
+                isShowModal: true
             }, () => console.log("isWon:" + this.state.isWon))
             console.log("you won")
         }
@@ -223,11 +238,11 @@ class Game extends Component {
         return true;
     }
 
-    tick = () => {
+    tick = (t) => {
         let timer = this.state.time;
         setInterval(() => {
-            if (timer > 0)
-                timer--;
+            if (timer < t)
+                timer++;
             this.setState({
                 time: timer
             })
@@ -235,14 +250,38 @@ class Game extends Component {
         // console.log("clicked time" + "time:" + this.state.time + " timer:" + this.state.timer)
     }
 
-    toggleModal = () => {
+    playAgain = () => {
+        this.setState({
+            isShowModal: false,
+            isStarted: false,
+            colorArr: [],
+            lengthArr: 0,
+            userAnswers: [],
+            isWon: false,
+            tries: 0
+        });
 
-        if (this.state.isWon)
-            return true;
-
-
-        return false;
     }
+
+    close = () => {
+        this.setState({ isShowModal: false })
+    }
+
+    openTimer = () => {
+
+        this.tick(4);
+        if (this.state.time == 4)
+            return <Modals show={false}></Modals>
+        else
+            return <Modals show={true} >The game starts in: {this.state.time}</Modals>
+    }
+
+    // openRule = () => {
+    //     console.log("opened");
+    //     return (
+    //         <p >The rules are simples</p>
+    //     )
+    // }
 
     render() {
 
@@ -252,21 +291,24 @@ class Game extends Component {
         else
             modalText = "You lost sorry"
 
-        let startModal =
+        // let startModal =
+        //     < Modals show={true} >
+        //         Game start in : {this.state.time}
+        //     </Modals >
 
-            <Modals show={true}>
-                Game start in :{this.state.time}
-            </Modals>
 
+
+
+        let timer = this.openTimer();
 
         return (
             <div>
-                <h2 onClick={this.runGame}> Vick Says: <span className={this.state.currentColor}>{this.state.currentColor}</span></h2>
+                <h2 > Vick Says: <span className={this.state.currentColor}>{this.state.currentColor}</span></h2>
                 {/* <BtnFunctions name='Play' onClick={this.displayColorSequence} /> */}
 
                 {/* make another components for play/rules */}
-                <button onClick={this.tick}>Rules</button>
-                <button onClick={this.changeColorName}>Game</button>
+                <button >Rules</button>
+                <button onClick={this.runGame}>Play</button>
 
                 <Background />
                 <div>
@@ -280,12 +322,16 @@ class Game extends Component {
                     {/* <p>Color Sequence: {this.state.colorArr}</p> */}
                     <h3>Timer: {this.state.time}</h3>
 
+                    {timer}
+
+                    
+
                     {/* {startModal} */}
-                    <Modals show={this.toggleModal()} >
+                    <Modals show={this.state.isShowModal} >
                         {modalText}
                         <div>
-                            <button>Play again</button>
-                            <button>Close</button>
+                            <button onClick={this.playAgain}>Play again</button>
+                            <button onClick={this.close}>Close</button>
                         </div>
                     </Modals>
                 </div>
